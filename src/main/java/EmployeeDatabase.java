@@ -73,23 +73,45 @@ public class EmployeeDatabase {
      */
     public int countEmployeesUnder(final Employee employee) {
         int count = 0;
-        boolean check = false;
-        Employee employeeUnder = null;
+        boolean check1 = false;
+        boolean check2 = false;
+        Employee employeeUnder1 = null;
+        Employee employeeUnder2 = null;
         //Base case
         for (int i = 0; i < this.employees.size(); i++) {
             if (findManager(employees.get(i)) == employee) {
-                check = false;
-                employeeUnder = employees.get(i);
+                check1 = false;
+                employeeUnder1 = employees.get(i);
                 break;
             } else {
-                check = true;
-                employeeUnder = employee;
+                check1 = true;
+                employeeUnder1 = employee;
             }
         }
-        if (check) {
+        if (check1) {
             return 1;
         }
-        count = countEmployeesUnder(employeeUnder) + 1;
+        for (int i = 0; i < this.employees.size(); i++) {
+            if (findManager(employees.get(i)) == employee
+                    && employees.get(i) != employeeUnder1) {
+                check2 = false;
+                employeeUnder2 = employees.get(i);
+                break;
+            } else if (employee == employeeUnder1) {
+                check2 = false;
+                employeeUnder2 = null;
+            } else {
+                check2 = true;
+                employeeUnder2 = employee;
+            }
+        }
+        if (check2) {
+            return 1;
+        }
+        if (employeeUnder2 == null) {
+            return 0;
+        }
+        count = countEmployeesUnder(employeeUnder1) + countEmployeesUnder(employeeUnder2);
         return count;
     }
 
