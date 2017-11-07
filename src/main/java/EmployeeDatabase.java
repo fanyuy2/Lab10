@@ -15,7 +15,7 @@ public class EmployeeDatabase {
     /**
      * List of employees.
      */
-    public List<Employee> employees;
+    private List<Employee> employees;
 
     /**
      * Constructor which initializes the employees list.
@@ -30,10 +30,10 @@ public class EmployeeDatabase {
     /**
      * Returns the manager for the given employee.
      *
-     * @param employee
-     * @return
+     * @param employee the employee
+     * @return the manager of the employee
      */
-    Employee findManager(final Employee employee) {
+    public Employee findManager(final Employee employee) {
         Employee manager = null;
         for (int i = 0; i < employees.size(); i++) {
             if (employees.get(i).getName() == employee.getManager()) {
@@ -50,12 +50,17 @@ public class EmployeeDatabase {
      * Consider both a recursive and an iterative solution to this problem.
      *
      * @param employee name of the employee
-     * @return int
+     * @return number of employees above the given employee
      */
     public int countManagersAbove(final Employee employee) {
-        /*
-         * Implement this function
-         */
+        //Base case
+        int count = 0;
+        if (findManager(employee) == null) {
+            count = 1;
+        } else {
+            count = countManagersAbove(findManager(employee)) + 1;
+        }
+        return count;
     }
 
     /**
@@ -64,12 +69,28 @@ public class EmployeeDatabase {
      * Consider both a recursive and an iterative solution to this problem.
      *
      * @param employee name of the employee
-     * @return int
+     * @return the employees below the given employee
      */
     public int countEmployeesUnder(final Employee employee) {
-        /*
-         * Implement this function
-         */
+        int count = 0;
+        boolean check = false;
+        Employee employeeUnder = null;
+        //Base case
+        for (int i = 0; i < this.employees.size(); i++) {
+            if (findManager(employees.get(i)).getName() == employee.getName()) {
+                check = false;
+                employeeUnder = employees.get(i);
+                break;
+            } else {
+                check = true;
+                employeeUnder = employee;
+            }
+        }
+        if (check) {
+            count = 1;
+        }
+        count = countEmployeesUnder(employeeUnder) + 1;
+        return count;
     }
 
     /**
