@@ -77,7 +77,7 @@ public class EmployeeDatabase {
         Employee employeeUnder = null;
         //Base case
         for (int i = 0; i < this.employees.size(); i++) {
-            if (findManager(employees.get(i)).getName() == employee.getName()) {
+            if (findManager(employees.get(i)) == employee) {
                 check = false;
                 employeeUnder = employees.get(i);
                 break;
@@ -87,7 +87,7 @@ public class EmployeeDatabase {
             }
         }
         if (check) {
-            count = 1;
+            return 1;
         }
         count = countEmployeesUnder(employeeUnder) + 1;
         return count;
